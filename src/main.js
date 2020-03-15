@@ -29,7 +29,7 @@ Apify.main(async () => {
                 tested,
                 infected: undercareExisting + undercare84 + stableExisting + stable84,
                 underCare: undercareExisting + undercare84,
-                stable: stableExisting + stable84,                
+                stable: stableExisting + stable84,
                 sourceUrl,
                 lastUpdatedAtApify: new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, now.getMinutes())).toISOString(),
                 readMe: 'https://apify.com/tugkan/covid-bh',
@@ -40,6 +40,8 @@ Apify.main(async () => {
             delete latest.lastUpdatedAtApify;
             const actual = Object.assign({}, data);
             delete actual.lastUpdatedAtApify;
+
+            await Apify.pushData({...data});
 
             if (JSON.stringify(latest) !== JSON.stringify(actual)) {
                 log.info('Data did change :( storing new to dataset.');

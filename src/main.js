@@ -19,17 +19,15 @@ Apify.main(async () => {
             log.info('Page loaded.');
             const now = new Date();
 
-            const tested = parseInt($($('#tbl1 tr').get(1)).find("td span").text().trim(), 10)
-            const stableExisting = parseInt($($($('#tbl1 tr').get(4)).find("td").get(0)).find("span").text().trim(), 10)
-            const undercareExisting = parseInt($($($('#tbl1 tr').get(4)).find("td").get(1)).find("span").text().trim(), 10)
-            const stable84 = parseInt($($($('#tbl1 tr').get(4)).find("td").get(2)).find("span").text().trim(), 10)
-            const undercare84 = parseInt($($($('#tbl1 tr').get(4)).find("td").get(3)).find("span").text().trim(), 10)
+            const [infected,stable,undercare,recipients,deceased] = $($('table').get(0)).find('tr td span').map((i,el) => parseInt($(el).text(),10)).get();
 
             const data = {
-                tested,
-                infected: undercareExisting + undercare84 + stableExisting + stable84,
-                underCare: undercareExisting + undercare84,
-                stable: stableExisting + stable84,
+                tested: parseInt($($('table').get(0)).find('th span').text(),10),
+                infected,
+                stable,
+                undercare,
+                recipients,
+                deceased,
                 sourceUrl,
                 lastUpdatedAtApify: new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, now.getMinutes())).toISOString(),
                 readMe: 'https://apify.com/tugkan/covid-bh',
